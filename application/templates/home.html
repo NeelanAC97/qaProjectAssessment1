@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body_content %}
+
+{% for artist_track in artisttracks %}
+        <div>
+                
+                <span>by <i>{{ artist_track.author.artist_name }} {{ artist_track.author.track_name }}</i></span>
+                <span>on the <i>{{ artist_track.date_posted }}</i></span>
+
+                
+        </div>
+{% endfor %}
+
+{% endblock %}
