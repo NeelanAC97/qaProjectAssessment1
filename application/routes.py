@@ -1,23 +1,23 @@
 from flask import render_template, url_for, redirect, request
 from application import app, db, bcrypt
 from application.models import Artists, Tracks, ArtistTracks
-from application.forms import PostForm, RegistrationForm, LoginForm, UpdateAccountForm
+from application.forms import UploadTrackForm
 
 @app.route('/home')
 @app.route('/')
 def home():
-    all_artist_tracks = ArtistTracks.query.all()
-    return render_template('home.html', title='Home', artist_tracks=all_artist_tracks)
+    all_tracks = Tracks.query.all()
+    return render_template('home.html', title='Home', tracks=all_tracks)
 
 @app.route('/uploadtrack', methods=['GET', 'POST'])
-def uploadtrack():
+def upload_track():
     form = UploadTrackForm()
     if form.validate_on_submit():
         new_track = Tracks(
             track_name = form.track_name.data,
             length = form.length.data,
             genre = form.genre.data,
-            author = current_user
+            
         )
         db.session.add(new_track)
         db.session.commit()
