@@ -6,7 +6,7 @@
     <div>
 	<h3>{{ playlist.playlist_name }}</h3>
     <span> by {{ playlist.author }} on the {{ playlist.date_created }}</span>
-	{% for song in playlist_songs %}
+	{% for song in playlist %}
 	{{ song.song_name }}
 	{% endfor %}
 		<form action="{{ url_for('update_playlist', cur_id=playlist.id) }}" method="POST">

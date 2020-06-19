@@ -38,7 +38,6 @@ def create_playlist():
             if playlist_song3:
                 new_playlist.song.append(playlist_song3)
 
-        #new_playlist.song.append(songs)
         db.session.add(new_playlist)
         db.session.commit()
         return redirect(url_for('home'))
@@ -65,3 +64,10 @@ def update_playlist(cur_id):
         form.playlist_song2.data = playlist_id.playlist_song2
         form.playlist_song3.data = playlist_id_song3
     return render_template('updateplaylist.html', title='Update Playlist', form=form)
+
+@app.route("/home/deleteplaylist/<int:cur_id>", methods=["GET", "POST"])
+def delete_playlist(cur_id):
+    playlist_id=Playlists.query.filter_by(id=cur_id).first()
+    db.session.delete(playlist_id)
+    db.session.commit()
+    return redirect(url_for('home'))
