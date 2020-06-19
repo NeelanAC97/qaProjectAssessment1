@@ -1,39 +1,45 @@
 from application import db
 from datetime import datetime
 
-class Artists(db.Model):
+class Playlists(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    artist_name = db.Column(db.String(30), nullable=False)
-    bio = db.Column(db.String(500), nullable=False)
-    artist_track = db.relationship('Tracks',secondary='artist_tracks', backref='artist', lazy=True)
+    playlist_name = db.Column(db.String(30), nullable=False)
+    author = db.Column(db.String(50), nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    playlist_song = db.relationship('Songs',
+            secondary='playlist_songs',
+            cascade = 'delete',
+            backref=db.backref('playlist'),
+            lazy='dynamic')
     def __repr__(self):
-        return ''.join(['Artist ID: ', str(self.id), '\r\n',
-                        'Artist Name: ', self.artist_name, '\r\n',
-                        'Bio: ', self.bio
+        return ''.join(['Playlist ID: ', str(self.id), '\r\n',
+                        'Playlist Name: ', self.playlist_name, '\r\n',
+                        'Author: ', self.author
                         ])
 
-class Tracks(db.Model):
+class Songs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    track_name = db.Column(db.String(30), nullable=False)
+    song_name = db.Column(db.String(30), nullable=False)
+    artists = db.Column(db.String(50), nullable=False)
     length = db.Column(db.Float, nullable=False)
     genre = db.Column(db.String(30), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    artist_track = db.relationship('Artists',secondary='artist_tracks', backref='track', lazy=True)
+    playlist_song = db.relationship('Playlists',
+            secondary='playlist_songs',
+            cascade = 'delete',
+            backref=db.backref('song'),
+            lazy='dynamic')    
     def __repr__(self):
         return ''.join([
-            'Track ID: ', str(self.id), '\r\n',
-            'Track Name: ', self.track_name, '\r\n',
-            'Length: ', self.length
+            'Song ID: ', str(self.id), '\r\n',
+            'Song Name: ', self.song_name, '\r\n',
+            'Arist(s): ', self.artists, '\r\n',
+            'Length: ', str(self.length), '\r\n',
+            'Genre: ', self.genre
             ])
 
-class ArtistTracks(db.Model):
-    __tablename__="artist_tracks"
-    artist_track_id = db.Column(db.Integer, primary_key=True)
-    artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
-    track_id = db.Column(db.Integer, db.ForeignKey('tracks.id'), nullable=False)
-    def __repr__(self):
-        return ''.join([
-            'Artist ID: ', str(self.artist_id), '\r\n',
-            'Track ID:', str(self.track_id)
-            ])
+playlist_songs = db.Table('playlist_songs', db.Model.metadata,
+    db.Column('playlist_id', db.Integer, db.ForeignKey('playlists.id')),
+    db.Column('song_id', db.Integer, db.ForeignKey('songs.id'))
+)
 

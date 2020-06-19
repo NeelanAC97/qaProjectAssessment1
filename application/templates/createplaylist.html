@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+
+<div class="form-group">
+
+        <form method='POST' action="">
+
+                {{ form.hidden_tag() }}
+  
+                {{ form.playlist_name.label }}
+                {{ form.playlist_name }}
+
+                {% if form.playlist_name.errors %}
+                        <div class="error">
+
+                                {% for error in form.playlist_name.errors %}
+
+                                        <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                {% endif %}
+                <br>
+                {{ form.author.label }}
+                {{ form.author }}
+                {% if form.author.errors %}
+                        <div class="error">
+                                {% for error in form.author.errors %}
+                                        <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                i{% endif %}
+                <br>
+                {{ form.playlist_song1.label }}
+                {{ form.playlist_song1 }}
+                {% if form.playlist_song1.errors %}
+                        <div class="error">
+                                {% for error in form.playlist_song1.errors %}
+                                        <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                i{% endif %}
+                <br>
+		{{ form.playlist_song2.label }}
+                {{ form.playlist_song2 }}
+                {% if form.playlist_song2.errors %}
+                        <div class="error">
+                                {% for error in form.playlist_song2.errors %}
+                                        <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                i{% endif %}
+                <br>
+                {{ form.playlist_song3.label }}
+                {{ form.playlist_song3 }}
+                {% if form.playlist_song3.errors %}
+                        <div class="error">
+                                {% for error in form.playlist_song3.errors %}
+                                        <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                i{% endif %}
+                <br>
+                {{ form.submit }}
+        </form>
+{% endblock %}

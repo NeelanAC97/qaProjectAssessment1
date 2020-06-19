@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+  
+{% block body_content %}
+{% for artist in artists %}
+        <div>
+                <h3>{{ artist.artist_name }}</h3>
+		<span><p>{{ artist.bio }}<p></span>
+                <br><br>
+        </div>
+{% endfor %}
+{% endblock %}

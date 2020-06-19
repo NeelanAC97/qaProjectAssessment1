@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+  
+{% block body_content %}
+{% for song in songs %}
+        <div>
+                <h3>{{ song.song_name }}</h3>
+		<span> by {{ song.artists }} </span>
+		<span>  {{ song.genre }} </span>
+		<span> {{ song.length }} </span>
+		<span> by {{ song.date_posted }} </span>
+                <br><br>
+        </div>
+{% endfor %}
+{% endblock %}

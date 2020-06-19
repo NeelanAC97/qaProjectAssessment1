@@ -2,11 +2,16 @@
 
 {% block body_content %}
 
-{% for track in tracks %}
+{% for playlist in playlists %}
         <div>
-		{{ track.artists }}                
-
-                
+	<h3>{{ playlist.playlist_name }}</h3>
+                <span> by {{ playlist.author }} on the {{ playlist.date_created }}</span>
+		{% for song in playlist_songs %}
+			{{ song.song_name }}
+		{% endfor %}
+		<button type="button"
+		onclick="{{ url_for('update_playlist') }}"Update playlist</button>
+        </div>
         </div>
 {% endfor %}
 
