@@ -3,14 +3,17 @@
 {% block body_content %}
 
 {% for playlist in playlists %}
-        <div>
+    <div>
 	<h3>{{ playlist.playlist_name }}</h3>
-                <span> by {{ playlist.author }} on the {{ playlist.date_created }}</span>
-		{% for song in playlist_songs %}
-			{{ song.song_name }}
-		{% endfor %}
-		<button type="button"
-		onclick="{{ url_for('update_playlist') }}"Update playlist</button>
+    <span> by {{ playlist.author }} on the {{ playlist.date_created }}</span>
+	{% for song in playlist_songs %}
+	{{ song.song_name }}
+	{% endfor %}
+		<form action="{{ url_for('update_playlist', cur_id=playlist.id) }}" method="POST">
+		<button type="submit">Update playlist</button>
+		<form action="{{ url_for('delete_playlist', cur_id=playlist.id) }}" method="POST">
+		<button type="submit">Delete playlist</button>
+		</form>
         </div>
         </div>
 {% endfor %}

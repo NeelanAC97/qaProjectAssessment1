@@ -1,5 +1,5 @@
 from flask import render_template, url_for, redirect, request
-from application import app, db, bcrypt
+from application import app, db
 from application.models import Songs, Playlists
 from application.forms import CreatePlaylistForm, UpdatePlaylistForm
 
@@ -46,19 +46,22 @@ def create_playlist():
         print(form.errors)
     return render_template('createplaylist.html', title='Create Playlist', form=form)
 
-@app.route("/home/updateplaylist", methods=["GET", "POST"])
-def update_playlist():
+@app.route("/home/updateplaylist/<int:cur_id>", methods=["GET", "POST"])
+def update_playlist(cur_id):
+    playlist_id=Playlists.query.filter_by(id=cur_id).first()
     form = UpdatePlaylistForm()
     if form.validate_on_submit():
-        playlist_name = form.playlist_name.data
-        author = form.author.data
-        playlist_song1 = form.playlist_song1.data
-        playlist_song2 = form.playlist_song2.data
-        playlist_song3 = form.playlist_song3.data
+        playlist_id.playlist_name = form.playlist_name.data
+        playlist_id.author = form.author.data
+        playlist_id.playlist_song1 = form.playlist_song1.data
+        playlist_id.playlist_song2 = form.playlist_song2.data
+        playlist_id.playlist_song3 = form.playlist_song3.data
         db.session.commit()
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form.first_name.data = current_user.first_name
-        form.last_name.data = current_user.last_name
-        form.email.data = current_user.email
-    return redirect(url_for('home'))
+        form.playlist_name.data = playlist_id.playlist_name
+        form.author.data = playlist_id.author
+        form.playlist_song1.data = playlist_id.playlist_song1
+        form.playlist_song2.data = playlist_id.playlist_song2
+        form.playlist_song3.data = playlist_id_song3
+    return render_template('updateplaylist.html', title='Update Playlist', form=form)
